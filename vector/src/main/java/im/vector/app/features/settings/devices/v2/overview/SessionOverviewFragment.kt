@@ -16,11 +16,8 @@
 
 package im.vector.app.features.settings.devices.v2.overview
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -36,6 +33,8 @@ import im.vector.app.core.resources.DrawableProvider
 import im.vector.app.databinding.FragmentSessionOverviewBinding
 import im.vector.app.features.crypto.recover.SetupMode
 import im.vector.app.features.settings.devices.v2.list.SessionInfoViewState
+import im.vector.app.features.settings.devices.v2.more.SessionLearnMoreBottomSheet
+import org.matrix.android.sdk.api.session.crypto.model.RoomEncryptionTrustLevel
 import javax.inject.Inject
 
 /**
@@ -135,6 +134,9 @@ class SessionOverviewFragment :
                     isLastSeenDetailsVisible = true,
             )
             views.sessionOverviewInfo.render(infoViewState, dateFormatter, drawableProvider, colorProvider)
+            views.sessionOverviewInfo.onLearnMoreClickListener = {
+                showLearnMoreInfoVerificationStatus(viewState.deviceFullInfo.roomEncryptionTrustLevel == RoomEncryptionTrustLevel.Trusted)
+            }
         } else {
             hideSessionInfo()
         }
@@ -142,5 +144,23 @@ class SessionOverviewFragment :
 
     private fun hideSessionInfo() {
         views.sessionOverviewInfo.isGone = true
+    }
+
+    private fun showLearnMoreInfoVerificationStatus(isVerified: Boolean) {
+        val titleResId = if (isVerified) {
+            R.string.device_manager_verification_status_verified
+        } else {
+            R.string.device_manager_verification_status_unverified
+        }
+        val descriptionResId = if (isVerified) {
+            R.string.device_manager_learn_more_session_verified
+        } else {
+            R.string.device_manager_learn_more_sessions_unverified
+        }
+        val args = SessionLearnMoreBottomSheet.Args(
+                title = getString(titleResId),
+                description = getString(descriptionResId),
+        )
+        SessionLearnMoreBottomSheet.show(childFragmentManager, args)
     }
 }
