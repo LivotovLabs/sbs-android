@@ -16,8 +16,11 @@
 
 package im.vector.app.features.settings.devices.v2.overview
 
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -125,9 +128,10 @@ class SessionOverviewFragment :
         if (viewState.deviceInfo is Success) {
             views.sessionOverviewInfo.isVisible = true
             val isCurrentSession = viewState.isCurrentSession
+            val deviceFullInfo = viewState.deviceInfo.invoke()
             val infoViewState = SessionInfoViewState(
                     isCurrentSession = isCurrentSession,
-                    deviceFullInfo = viewState.deviceInfo.invoke(),
+                    deviceFullInfo = deviceFullInfo,
                     isVerifyButtonVisible = isCurrentSession || viewState.isCurrentSessionTrusted,
                     isDetailsButtonVisible = false,
                     isLearnMoreLinkVisible = true,
@@ -135,7 +139,7 @@ class SessionOverviewFragment :
             )
             views.sessionOverviewInfo.render(infoViewState, dateFormatter, drawableProvider, colorProvider)
             views.sessionOverviewInfo.onLearnMoreClickListener = {
-                showLearnMoreInfoVerificationStatus(viewState.deviceFullInfo.roomEncryptionTrustLevel == RoomEncryptionTrustLevel.Trusted)
+                showLearnMoreInfoVerificationStatus(deviceFullInfo.roomEncryptionTrustLevel == RoomEncryptionTrustLevel.Trusted)
             }
         } else {
             hideSessionInfo()
