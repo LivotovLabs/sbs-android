@@ -121,6 +121,7 @@ class SessionOverviewFragment :
         updateToolbar(state.isCurrentSession)
         updateEntryDetails(state.deviceId)
         updateSessionInfo(state)
+        updateLoading(state.isLoading)
     }
 
     private fun updateToolbar(isCurrentSession: Boolean) {
@@ -156,6 +157,14 @@ class SessionOverviewFragment :
 
     private fun hideSessionInfo() {
         views.sessionOverviewInfo.isGone = true
+    }
+
+    private fun updateLoading(isLoading: Boolean) {
+        if (isLoading) {
+            showLoading(null)
+        } else {
+            dismissLoadingDialog()
+        }
     }
 
     private val reAuthActivityResultLauncher = registerStartForActivityResult { activityResult ->
