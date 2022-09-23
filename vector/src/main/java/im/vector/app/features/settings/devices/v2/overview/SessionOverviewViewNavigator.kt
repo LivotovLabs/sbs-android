@@ -17,12 +17,18 @@
 package im.vector.app.features.settings.devices.v2.overview
 
 import android.content.Context
+import androidx.fragment.app.FragmentActivity
 import im.vector.app.features.settings.devices.v2.details.SessionDetailsActivity
 import javax.inject.Inject
 
 class SessionOverviewViewNavigator @Inject constructor() {
 
-    fun navigateToSessionDetails(context: Context, deviceId: String) {
+    fun goToSessionDetails(context: Context, deviceId: String) {
         context.startActivity(SessionDetailsActivity.newIntent(context, deviceId))
+    }
+
+    // TODO add unit test
+    fun goBack(fragmentActivity: FragmentActivity) {
+        fragmentActivity.finish()
     }
 }

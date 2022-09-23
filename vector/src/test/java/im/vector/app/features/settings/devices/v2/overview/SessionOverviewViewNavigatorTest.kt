@@ -52,7 +52,7 @@ class SessionOverviewViewNavigatorTest {
         context.givenStartActivity(intent)
 
         // When
-        sessionOverviewViewNavigator.navigateToSessionDetails(context.instance, A_SESSION_ID)
+        sessionOverviewViewNavigator.goToSessionDetails(context.instance, A_SESSION_ID)
 
         // Then
         verify {
