@@ -174,9 +174,13 @@ abstract class CallTileTimelineItem : AbsBaseMessageItem<CallTileTimelineItem.Ho
                 holder.acceptView.onClick {
                     attributes.callback?.onTimelineItemAction(RoomDetailAction.JoinJitsiCall)
                 }
+                holder.rejectView.onClick {
+                    attributes.callback?.onTimelineItemAction(RoomDetailAction.EndCall)
+                }
                 holder.acceptView.isVisible = true
-                holder.rejectView.isVisible = false
+                holder.rejectView.isVisible = true
                 holder.acceptView.setText(R.string.action_join)
+                holder.rejectView.setText(R.string.call_notification_hangup)
                 holder.acceptView.setLeftDrawable(R.drawable.ic_call_video_small, R.attr.colorOnPrimary)
             }
             !attributes.informationData.sentByMe && attributes.isStillActive -> {

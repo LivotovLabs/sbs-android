@@ -588,6 +588,10 @@ class TimelineViewModel @AssistedInject constructor(
 
     private fun handleEndCall() {
         callManager.endCallForRoom(initialState.roomId)
+        withState { state ->
+            val jitsiWidget = state.activeRoomWidgets()?.firstOrNull { it.widgetId == state.jitsiState.widgetId } ?: return@withState
+            handleDeleteWidget(jitsiWidget.widgetId)
+        }
     }
 
     private fun handleSelectStickerAttachment() {

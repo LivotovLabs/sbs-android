@@ -8,9 +8,9 @@
     <string name="matrix_org_user_domain" translatable="false">safebysafe.app</string>
 
     <!-- Rageshake configuration -->
-    <string name="bug_report_url" translatable="false">https://riot.im/bugreports/submit</string>
-    <string name="bug_report_app_name" translatable="false">riot-android</string>
-    <string name="bug_report_auto_uisi_app_name" translatable="false">element-auto-uisi</string>
+    <string name="bug_report_url" translatable="false">https://bugs.safebysafe.app</string>
+    <string name="bug_report_app_name" translatable="false">SBS2</string>
+    <string name="bug_report_auto_uisi_app_name" translatable="false">app.safebysafe.v2.android</string>
 
     <!--
         Pusher config for the application
@@ -27,7 +27,7 @@
     <string name="pusher_app_id" translatable="false">app.safebysafe.v2.android</string>
 
     <!-- preferred jitsi domain -->
-    <string name="preferred_jitsi_domain" translatable="false">meet.element.io</string>
+    <string name="preferred_jitsi_domain" translatable="false">videoconf.safebysafe.app</string>
 
     <string-array name="room_directory_servers" translatable="false">
         <item>matrix.safebysafe.app</item>
