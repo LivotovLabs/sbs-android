@@ -34,15 +34,4 @@ class ReleaseNotesPreferencesStore @Inject constructor(
         private val context: Context
 ) {
 
-    private val isAppLayoutOnboardingShown = booleanPreferencesKey("SETTINGS_APP_LAYOUT_ONBOARDING_DISPLAYED")
-
-    val appLayoutOnboardingShown: Flow<Boolean> = context.dataStore.data
-            .map { preferences -> preferences[isAppLayoutOnboardingShown].orFalse() }
-            .distinctUntilChanged()
-
-    suspend fun setAppLayoutOnboardingShown(isShown: Boolean) {
-        context.dataStore.edit { settings ->
-            settings[isAppLayoutOnboardingShown] = isShown
-        }
-    }
 }

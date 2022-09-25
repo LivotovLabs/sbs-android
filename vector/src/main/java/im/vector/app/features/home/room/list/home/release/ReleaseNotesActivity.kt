@@ -45,7 +45,7 @@ class ReleaseNotesActivity : VectorBaseActivity<ActivitySimpleBinding>() {
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-            releaseNotesPreferencesStore.setAppLayoutOnboardingShown(true)
+            // mark release nores displayed for the current version (if necessary)
         }
     }
 }

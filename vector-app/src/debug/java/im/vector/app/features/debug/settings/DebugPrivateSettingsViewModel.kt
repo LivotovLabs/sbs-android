@@ -45,15 +45,6 @@ class DebugPrivateSettingsViewModel @AssistedInject constructor(
 
     init {
         observeVectorOverrides()
-        observeReleaseNotesPreferencesStore()
-    }
-
-    private fun observeReleaseNotesPreferencesStore() {
-        releaseNotesPreferencesStore.appLayoutOnboardingShown.setOnEach {
-            copy(
-                    releaseNotesActivityHasBeenDisplayed = it
-            )
-        }
     }
 
     private fun observeVectorOverrides() {
