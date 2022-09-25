@@ -1,35 +1,49 @@
 {
   "project_info": {
-    "project_number": "912726360885",
-    "firebase_url": "https://vector-alpha.firebaseio.com",
-    "project_id": "vector-alpha",
-    "storage_bucket": "vector-alpha.appspot.com"
+    "project_number": "264999673530",
+    "project_id": "safebysafe-v2",
+    "storage_bucket": "safebysafe-v2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:912726360885:android:4ef8f3a0021e774d",
+        "mobilesdk_app_id": "1:264999673530:android:9b3926e4acb74bdb3bec83",
         "android_client_info": {
-          "package_name": "im.vector.app"
+          "package_name": "app.safebysafe.v2"
         }
       },
       "oauth_client": [
         {
-          "client_id": "912726360885-e87n3jva9uoj4vbidvijq78ebg02asv2.apps.googleusercontent.com",
+          "client_id": "264999673530-paps3fu0eb2s59bqdd51vqc6j0nmu2nv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.safebysafe.v2",
+            "certificate_hash": "33dba7b309ccba66bebb2bba85675f5b8a9e3ca2"
+          }
+        },
+        {
+          "client_id": "264999673530-8s2qguio7hugpnaf1khqda5d5iu5mn1o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAFZX8IhIfgzdOZvxDP_ISO5WYoU7jmQ5c"
+          "current_key": "AIzaSyBddfnUlIJploTTVZn4HqnCsM4wtalJ9Lg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "912726360885-rsae0i66rgqt6ivnudu1pv4tksg9i8b2.apps.googleusercontent.com",
+              "client_id": "264999673530-8s2qguio7hugpnaf1khqda5d5iu5mn1o.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "264999673530-so0soqaf7j21ggb3q3m93eqvdf4atm4o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.safebysafe.v2"
+              }
             }
           ]
         }

@@ -131,7 +131,7 @@ android {
     compileSdk versions.compileSdk
 
     defaultConfig {
-        applicationId "im.vector.app"
+        applicationId "app.safebysafe.v2"
         // Set to API 21: see #405
         minSdk versions.minSdk
         targetSdk versions.targetSdk
@@ -213,30 +213,29 @@ android {
 
     signingConfigs {
         debug {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storeFile file('./signature/debug.keystore')
-            storePassword 'android'
+            keyAlias 'upload'
+            keyPassword 'upload'
+            storeFile file('./signature/upload.jks')
+            storePassword 'upload'
         }
         nightly {
-            keyAlias System.env.ELEMENT_ANDROID_NIGHTLY_KEYID ?: project.property("signing.element.nightly.keyId")
-            keyPassword System.env.ELEMENT_ANDROID_NIGHTLY_KEYPASSWORD ?: project.property("signing.element.nightly.keyPassword")
-            storeFile file('./signature/nightly.keystore')
-            storePassword System.env.ELEMENT_ANDROID_NIGHTLY_STOREPASSWORD ?: project.property("signing.element.nightly.storePassword")
+            keyAlias 'upload'
+            keyPassword 'upload'
+            storeFile file('./signature/upload.jks')
+            storePassword 'upload'
         }
         release {
-            keyAlias project.property("signing.element.keyId")
-            keyPassword project.property("signing.element.keyPassword")
-            storeFile file(project.property("signing.element.storePath"))
-            storePassword project.property("signing.element.storePassword")
+            keyAlias 'upload'
+            keyPassword 'upload'
+            storeFile file('./signature/upload.jks')
+            storePassword 'upload'
         }
     }
 
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
-            resValue "string", "app_name", "SBS²-TST"
+            resValue "string", "app_name", "D-SBS²"
             resValue "color", "launcher_background", "#000DBD8B"
 
             if (project.hasProperty("coverage")) {
@@ -260,9 +259,8 @@ android {
 
         nightly {
             initWith release
-            applicationIdSuffix ".nightly"
             versionNameSuffix "-nightly"
-            resValue "string", "app_name", "SBS²"
+            resValue "string", "app_name", "N-SBS²"
             resValue "color", "launcher_background", "#0007007E"
             // We need to copy paste this block, this is not done automatically by `initWith release`
             postprocessing {

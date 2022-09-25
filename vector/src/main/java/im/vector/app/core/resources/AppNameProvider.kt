@@ -24,18 +24,6 @@ import javax.inject.Inject
 class AppNameProvider @Inject constructor(private val context: Context) {
 
     fun getAppName(): String {
-        return try {
-            val appPackageName = context.applicationContext.packageName
-            var appName = context.getApplicationLabel(appPackageName)
-
-            // Use appPackageName instead of appName if appName contains any non-ASCII character
-            if (!appName.matches("\\A\\p{ASCII}*\\z".toRegex())) {
-                appName = appPackageName
-            }
-            appName
-        } catch (e: Exception) {
-            Timber.e(e, "## AppNameProvider() : failed")
-            "ElementAndroid"
-        }
+        return "SBS2 Android"
     }
 }
