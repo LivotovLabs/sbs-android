@@ -152,14 +152,6 @@ class VectorSettingsSecurityPrivacyFragment :
         findPreference<VectorPreference>("SETTINGS_SECURITY_PIN")!!
     }
 
-    private val analyticsCategory by lazy {
-        findPreference<VectorPreferenceCategory>("SETTINGS_ANALYTICS_PREFERENCE_KEY")!!
-    }
-
-    private val analyticsConsent by lazy {
-        findPreference<VectorSwitchPreference>("SETTINGS_USER_ANALYTICS_CONSENT_KEY")!!
-    }
-
     override fun onCreateRecyclerView(inflater: LayoutInflater, parent: ViewGroup, savedInstanceState: Bundle?): RecyclerView {
         return super.onCreateRecyclerView(inflater, parent, savedInstanceState).also {
             // Insert animation are really annoying the first time the list is shown
@@ -317,24 +309,11 @@ class VectorSettingsSecurityPrivacyFragment :
 
     private fun observeAnalyticsState() {
         analyticsConsentViewModel.onEach(AnalyticsConsentViewState::userConsent) {
-            analyticsConsent.isChecked = it
         }
     }
 
     private fun setUpAnalytics() {
-        analyticsCategory.isVisible = analyticsConfig.isEnabled
 
-        analyticsConsent.setOnPreferenceChangeListener { _, newValue ->
-            val newValueBool = newValue as? Boolean ?: false
-            if (newValueBool) {
-                // User wants to enable analytics, display the opt in screen
-                navigator.openAnalyticsOptIn(requireContext())
-            } else {
-                // Just disable analytics
-                analyticsConsentViewModel.handle(AnalyticsConsentViewActions.SetUserConsent(false))
-            }
-            true
-        }
     }
 
     // Todo this should be refactored and use same state as 4S section

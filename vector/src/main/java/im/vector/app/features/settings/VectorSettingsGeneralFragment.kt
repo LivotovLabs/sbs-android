@@ -98,18 +98,6 @@ class VectorSettingsGeneralFragment :
     private val mPasswordPreference by lazy {
         findPreference<VectorPreference>(VectorPreferences.SETTINGS_CHANGE_PASSWORD_PREFERENCE_KEY)!!
     }
-    private val mIdentityServerPreference by lazy {
-        findPreference<VectorPreference>(VectorPreferences.SETTINGS_IDENTITY_SERVER_PREFERENCE_KEY)!!
-    }
-
-    // Local contacts
-    private val mContactSettingsCategory by lazy {
-        findPreference<PreferenceCategory>(VectorPreferences.SETTINGS_CONTACT_PREFERENCE_KEYS)!!
-    }
-
-    private val mContactPhonebookCountryPreference by lazy {
-        findPreference<VectorPreference>(VectorPreferences.SETTINGS_CONTACTS_PHONEBOOK_COUNTRY_PREFERENCE_KEY)!!
-    }
 
     private val integrationServiceListener = object : IntegrationManagerService.Listener {
         override fun onConfigurationChanged(configs: List<IntegrationManagerConfig>) {
@@ -202,8 +190,6 @@ class VectorSettingsGeneralFragment :
         val discoveryPreference = findPreference<VectorPreference>(VectorPreferences.SETTINGS_DISCOVERY_PREFERENCE_KEY)!!
         discoveryPreference.onPreferenceClickListener = openDiscoveryScreenPreferenceClickListener
 
-        mIdentityServerPreference.onPreferenceClickListener = openDiscoveryScreenPreferenceClickListener
-
         // Advanced settings
 
         // user account
@@ -295,7 +281,6 @@ class VectorSettingsGeneralFragment :
     override fun onResume() {
         super.onResume()
         // Refresh identity server summary
-        mIdentityServerPreference.summary = session.identityService().getCurrentIdentityServerUrl() ?: getString(R.string.identity_server_not_defined)
         refreshIntegrationManagerSettings()
         session.integrationManagerService().addListener(integrationServiceListener)
     }
@@ -306,22 +291,6 @@ class VectorSettingsGeneralFragment :
     }
 
     private fun refreshIntegrationManagerSettings() {
-        val integrationAllowed = session.integrationManagerService().isIntegrationEnabled()
-        (findPreference<SwitchPreference>(VectorPreferences.SETTINGS_ALLOW_INTEGRATIONS_KEY))!!.let {
-            val savedListener = it.onPreferenceChangeListener
-            it.onPreferenceChangeListener = null
-            it.isChecked = integrationAllowed
-            it.isEnabled = true
-            it.onPreferenceChangeListener = savedListener
-        }
-        findPreference<VectorPreference>(VectorPreferences.SETTINGS_INTEGRATION_MANAGER_UI_URL_KEY)!!.let {
-            if (integrationAllowed) {
-                it.summary = session.integrationManagerService().getPreferredConfig().uiUrl
-                it.isVisible = true
-            } else {
-                it.isVisible = false
-            }
-        }
     }
 
     override fun onImageReady(uri: Uri?) {

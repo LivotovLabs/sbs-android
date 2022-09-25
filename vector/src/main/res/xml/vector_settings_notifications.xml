@@ -45,6 +45,7 @@
 
     <im.vector.app.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_EMAIL_NOTIFICATION_CATEGORY_PREFERENCE_KEY"
+        app:isPreferenceVisible="false"
         android:title="@string/settings_notification_emails_category" />
 
     <im.vector.app.core.preference.VectorPreferenceCategory
