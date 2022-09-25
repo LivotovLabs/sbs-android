@@ -87,10 +87,17 @@ class UserListViewModel @AssistedInject constructor(
         observeUsers()
         setState {
             copy(
+                    showInviteActions = false,
+                    showContactBookAction = false,
                     configuredIdentityServer = cleanISURL(session.identityService().getCurrentIdentityServerUrl())
             )
         }
         session.identityService().addListener(identityServerListener)
+        withState { state ->
+            viewModelScope.launch {
+                executeSearchDirectory(state, "")
+            }
+        }
     }
 
     private fun cleanISURL(url: String?): String? {
@@ -230,19 +237,24 @@ class UserListViewModel @AssistedInject constructor(
     private suspend fun executeSearchDirectory(state: UserListViewState, search: String) {
         suspend {
             if (search.isBlank()) {
-                emptyList()
+                session.userService().getLocalDirectory()
             } else {
-                val searchResult = session
+                val serverDirectoryResults = session
                         .userService()
                         .searchUsersDirectory(search, 50, state.excludedUserIds.orEmpty())
                         .sortedBy { it.toMatrixItem().firstLetterOfDisplayName() }
+
+                val localDirectoryResult = session.userService().getLocalDirectory()
+
+                val searchResult = (serverDirectoryResults + localDirectoryResult).distinctBy { it.userId }
+
                 val userProfile = if (MatrixPatterns.isUserId(search)) {
                     val user = tryOrNull { session.profileService().getProfileAsUser(search) }
-                    User(
+                    if (user!=null) User(
                             userId = search,
-                            displayName = user?.displayName,
-                            avatarUrl = user?.avatarUrl
-                    )
+                            displayName = user.displayName,
+                            avatarUrl = user.avatarUrl
+                    ) else null
                 } else {
                     null
                 }

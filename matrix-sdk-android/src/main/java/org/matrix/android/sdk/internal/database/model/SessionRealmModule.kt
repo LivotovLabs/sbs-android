@@ -40,6 +40,7 @@ import org.matrix.android.sdk.internal.database.model.threads.ThreadSummaryEntit
             SyncEntity::class,
             PendingThreePidEntity::class,
             UserEntity::class,
+            ContactUserEntity::class,
             IgnoredUserEntity::class,
             BreadcrumbsEntity::class,
             UserThreePidEntity::class,

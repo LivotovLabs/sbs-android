@@ -21,6 +21,8 @@ import org.matrix.android.sdk.api.session.events.model.Content
 import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.room.model.RoomMemberContent
+import org.matrix.android.sdk.api.session.user.model.ContactUser
+import org.matrix.android.sdk.api.session.user.model.User
 import org.matrix.android.sdk.internal.database.model.RoomMemberSummaryEntity
 import org.matrix.android.sdk.internal.database.model.presence.UserPresenceEntity
 import org.matrix.android.sdk.internal.database.query.where
@@ -108,11 +110,18 @@ internal class RoomMemberEventHandler @Inject constructor(
         if (roomMember.membership.isActive()) {
             saveUserLocally(realm, userId, roomMember)
         }
+
+        saveUserToLocalContacts(realm, userId, roomMember)
     }
 
     private fun saveUserLocally(realm: Realm, userId: String, roomMember: RoomMemberContent) {
         val userEntity = UserEntityFactory.create(userId, roomMember)
         realm.insertOrUpdate(userEntity)
+    }
+
+    private fun saveUserToLocalContacts(realm: Realm, userId: String, roomMember: RoomMemberContent) {
+        val contactEntity = UserEntityFactory.createContact(userId, roomMember)
+        realm.insertOrUpdate(contactEntity)
     }
 
     private fun updateDirectChatsIfNecessary(

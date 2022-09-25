@@ -1779,7 +1779,7 @@
     <string name="add_by_qr_code">Add by QR code</string>
     <string name="qr_code">QR code</string>
     <string name="creating_direct_room">"Creating room…"</string>
-    <string name="direct_room_user_list_known_title">Known Users</string>
+    <string name="direct_room_user_list_known_title">Recently Used</string>
     <string name="direct_room_user_list_suggestions_title">Suggestions</string>
 
     <string name="message_view_edit_history">View Edit History</string>

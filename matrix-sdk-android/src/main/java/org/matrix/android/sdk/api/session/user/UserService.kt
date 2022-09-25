@@ -69,6 +69,12 @@ interface UserService {
     fun getPagedUsersLive(filter: String? = null, excludedUserIds: Set<String>? = null): LiveData<PagedList<User>>
 
     /**
+     * Provides local (app scoped) contacts list
+     */
+    fun getLocalDirectory(): List<User>
+    fun addToContacts(user: User)
+
+    /**
      * Get list of ignored users.
      */
     fun getIgnoredUsersLive(): LiveData<List<User>>

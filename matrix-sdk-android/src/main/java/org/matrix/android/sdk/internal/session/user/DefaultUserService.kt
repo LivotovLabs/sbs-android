@@ -18,7 +18,9 @@ package org.matrix.android.sdk.internal.session.user
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import com.otaliastudios.opengl.core.use
 import org.matrix.android.sdk.api.session.user.UserService
+import org.matrix.android.sdk.api.session.user.model.ContactUser
 import org.matrix.android.sdk.api.session.user.model.User
 import org.matrix.android.sdk.api.util.Optional
 import org.matrix.android.sdk.internal.session.profile.GetProfileInfoTask
@@ -55,6 +57,14 @@ internal class DefaultUserService @Inject constructor(
 
     override fun getPagedUsersLive(filter: String?, excludedUserIds: Set<String>?): LiveData<PagedList<User>> {
         return userDataSource.getPagedUsersLive(filter, excludedUserIds)
+    }
+
+    override fun getLocalDirectory(): List<User> {
+        return userDataSource.getContacts().map { it.toUser() }
+    }
+
+    override fun addToContacts(user: User) {
+        userDataSource.addContact(ContactUser(user.userId, user.displayName, user.avatarUrl))
     }
 
     override fun getIgnoredUsersLive(): LiveData<List<User>> {

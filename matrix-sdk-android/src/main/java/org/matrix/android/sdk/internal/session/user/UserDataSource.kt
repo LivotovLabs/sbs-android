@@ -23,15 +23,22 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.zhuinden.monarchy.Monarchy
 import io.realm.Case
+import org.matrix.android.sdk.api.session.room.model.Membership
+import org.matrix.android.sdk.api.session.user.model.ContactUser
 import org.matrix.android.sdk.api.session.user.model.User
 import org.matrix.android.sdk.api.util.Optional
 import org.matrix.android.sdk.api.util.toOptional
 import org.matrix.android.sdk.internal.database.RealmSessionProvider
 import org.matrix.android.sdk.internal.database.mapper.asDomain
+import org.matrix.android.sdk.internal.database.model.ContactUserEntity
+import org.matrix.android.sdk.internal.database.model.ContactUserEntityFields
 import org.matrix.android.sdk.internal.database.model.IgnoredUserEntity
 import org.matrix.android.sdk.internal.database.model.IgnoredUserEntityFields
+import org.matrix.android.sdk.internal.database.model.RoomEntity
+import org.matrix.android.sdk.internal.database.model.RoomMembersLoadStatusType
 import org.matrix.android.sdk.internal.database.model.UserEntity
 import org.matrix.android.sdk.internal.database.model.UserEntityFields
+import org.matrix.android.sdk.internal.database.query.getOrCreate
 import org.matrix.android.sdk.internal.database.query.where
 import org.matrix.android.sdk.internal.di.SessionDatabase
 import javax.inject.Inject
@@ -73,6 +80,15 @@ internal class UserDataSource @Inject constructor(
         )
         return Transformations.map(liveData) { results ->
             results.firstOrNull().toOptional()
+        }
+    }
+
+    fun getContacts(): List<ContactUser> {
+        return realmSessionProvider.withRealm { realm ->
+            realm.where(ContactUserEntity::class.java)
+                    .isNotEmpty(ContactUserEntityFields.USER_ID)
+                    .sort(ContactUserEntityFields.DISPLAY_NAME)
+                    .findAll().map { it.asDomain() }
         }
     }
 
@@ -119,5 +135,11 @@ internal class UserDataSource @Inject constructor(
                 },
                 { getUser(it.userId) ?: User(userId = it.userId) }
         )
+    }
+
+    fun addContact(contact: ContactUser) {
+        monarchy.runTransactionSync {
+            it.insertOrUpdate(UserEntityFactory.createContact(contact.toUser()))
+        }
     }
 }

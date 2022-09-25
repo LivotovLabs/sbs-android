@@ -115,7 +115,10 @@ class CreateDirectRoomViewModel @AssistedInject constructor(
                     .apply {
                         selections.forEach {
                             when (it) {
-                                is PendingSelection.UserPendingSelection -> invitedUserIds.add(it.user.userId)
+                                is PendingSelection.UserPendingSelection -> {
+                                    invitedUserIds.add(it.user.userId)
+                                    session.userService().addToContacts(it.user)
+                                }
                                 is PendingSelection.ThreePidPendingSelection -> invite3pids.add(it.threePid)
                             }
                         }

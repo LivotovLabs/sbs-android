@@ -18,6 +18,7 @@ package org.matrix.android.sdk.internal.session.user
 
 import org.matrix.android.sdk.api.session.room.model.RoomMemberContent
 import org.matrix.android.sdk.api.session.user.model.User
+import org.matrix.android.sdk.internal.database.model.ContactUserEntity
 import org.matrix.android.sdk.internal.database.model.UserEntity
 
 internal object UserEntityFactory {
@@ -37,4 +38,21 @@ internal object UserEntityFactory {
                 avatarUrl = user.avatarUrl.orEmpty()
         )
     }
+
+    fun createContact(user: User): ContactUserEntity {
+        return ContactUserEntity(
+                userId = user.userId,
+                displayName = user.displayName.orEmpty(),
+                avatarUrl = user.avatarUrl.orEmpty()
+        )
+    }
+
+    fun createContact(userId: String, roomMember: RoomMemberContent): ContactUserEntity {
+        return ContactUserEntity(
+                userId = userId,
+                displayName = roomMember.displayName.orEmpty(),
+                avatarUrl = roomMember.avatarUrl.orEmpty()
+        )
+    }
+
 }

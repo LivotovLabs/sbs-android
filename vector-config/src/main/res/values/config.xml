@@ -5,6 +5,7 @@
 
     <!-- server urls -->
     <string name="matrix_org_server_url" translatable="false">https://matrix.safebysafe.app</string>
+    <string name="matrix_org_user_domain" translatable="false">safebysafe.app</string>
 
     <!-- Rageshake configuration -->
     <string name="bug_report_url" translatable="false">https://riot.im/bugreports/submit</string>

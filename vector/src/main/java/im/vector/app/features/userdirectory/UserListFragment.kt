@@ -152,7 +152,7 @@ class UserListFragment :
                     val action = if (searchValue.isBlank()) {
                         UserListAction.ClearSearchUsers
                     } else {
-                        UserListAction.SearchUsers(searchValue.toString())
+                        UserListAction.SearchUsers("@${searchValue}:${getString(R.string.matrix_org_user_domain)}")
                     }
                     viewModel.handle(action)
                 }

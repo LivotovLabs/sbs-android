@@ -16,7 +16,9 @@
 
 package org.matrix.android.sdk.internal.database.mapper
 
+import org.matrix.android.sdk.api.session.user.model.ContactUser
 import org.matrix.android.sdk.api.session.user.model.User
+import org.matrix.android.sdk.internal.database.model.ContactUserEntity
 import org.matrix.android.sdk.internal.database.model.UserEntity
 
 internal object UserMapper {
@@ -32,4 +34,19 @@ internal object UserMapper {
 
 internal fun UserEntity.asDomain(): User {
     return UserMapper.map(this)
+}
+
+internal object ContactUserMapper {
+
+    fun map(userEntity: ContactUserEntity): ContactUser {
+        return ContactUser(
+                userEntity.userId,
+                userEntity.displayName,
+                userEntity.avatarUrl
+        )
+    }
+}
+
+internal fun ContactUserEntity.asDomain(): ContactUser {
+    return ContactUserMapper.map(this)
 }

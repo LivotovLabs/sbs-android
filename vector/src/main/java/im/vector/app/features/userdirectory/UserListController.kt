@@ -269,7 +269,7 @@ class UserListController @Inject constructor(
         }
         userListHeaderItem {
             id("suggestions")
-            header(host.stringProvider.getString(R.string.direct_room_user_list_suggestions_title))
+            header(host.stringProvider.getString(R.string.contacts_book_title))
         }
         if (toDisplay.isEmpty()) {
             renderEmptyState()
