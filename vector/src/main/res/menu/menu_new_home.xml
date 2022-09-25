@@ -10,35 +10,41 @@
     <item
         android:id="@+id/menu_home_invite_friends"
         android:title="@string/invite_friends"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_home_qr"
         android:title="@string/add_by_qr_code"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_home_suggestion"
         android:icon="@drawable/ic_material_bug_report"
         android:title="@string/send_suggestion"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_home_report_bug"
         android:icon="@drawable/ic_material_bug_report"
         android:title="@string/send_bug_report"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_home_init_sync_legacy"
         android:title="Do a legacy init sync"
         tools:ignore="HardcodedText"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_home_init_sync_optimized"
         android:title="Do an optimized init sync"
         tools:ignore="HardcodedText"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item

@@ -138,9 +138,9 @@
     <!-- Home Screen -->
     <string name="all_chats">All Chats</string>
     <string name="start_chat">Start Chat</string>
-    <string name="create_room">Create Room</string>
+    <string name="create_room">Create Conference Room</string>
     <string name="change_space">Change Space</string>
-    <string name="explore_rooms">Explore Rooms</string>
+    <string name="explore_rooms">Explore Conferences</string>
     <!-- Note to translators: %s refers to the space whose children is being expanded -->
     <string name="a11y_expand_space_children">Expand %s children</string>
     <!-- Note to translators: %s refers to the space whose children is being collapsed -->
@@ -429,7 +429,7 @@
 
     <!-- Home screen -->
     <string name="home_filter_placeholder_home">Filter room names</string>
-    <string name="home_layout_preferences">Layout preferences</string>
+    <string name="home_layout_preferences">Display Settings</string>
 
 
     <!-- Home screen layout settings -->
