@@ -51,6 +51,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/attachment_type_sticker"
                 android:src="@drawable/ic_attachment_sticker"
+                android:visibility="gone"
                 app:tint="?colorPrimary" />
 
             <ImageButton
@@ -70,6 +71,7 @@
                 android:layout_marginStart="2dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/attachment_type_poll"
+                android:visibility="gone"
                 android:src="@drawable/ic_attachment_poll"
                 app:tint="?colorPrimary" />
 
@@ -99,6 +101,7 @@
                 android:layout_width="@dimen/layout_touch_size"
                 android:layout_height="@dimen/layout_touch_size"
                 android:layout_marginStart="2dp"
+                android:visibility="gone"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/attachment_type_contact"
                 android:src="@drawable/ic_attachment_contact_white_24dp"

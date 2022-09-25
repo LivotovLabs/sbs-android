@@ -1128,6 +1128,9 @@ class TimelineFragment :
                 matrixAppsMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
             }
 
+
+            matrixAppsMenuItem.isVisible = false
+
             // Handle custom threads badge notification
             updateMenuThreadNotificationBadge(menu, state)
         }
