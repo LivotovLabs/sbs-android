@@ -74,13 +74,7 @@ class DebugPrivateSettingsViewModel @AssistedInject constructor(
             is DebugPrivateSettingsViewActions.SetForceLoginFallbackEnabled -> handleSetForceLoginFallbackEnabled(action)
             is SetDisplayNameCapabilityOverride -> handleSetDisplayNameCapabilityOverride(action)
             is SetAvatarCapabilityOverride -> handleSetAvatarCapabilityOverride(action)
-            DebugPrivateSettingsViewActions.ResetReleaseNotesActivityHasBeenDisplayed -> handleResetReleaseNotesActivityHasBeenDisplayed()
-        }
-    }
-
-    private fun handleResetReleaseNotesActivityHasBeenDisplayed() {
-        viewModelScope.launch {
-            releaseNotesPreferencesStore.setAppLayoutOnboardingShown(false)
+            DebugPrivateSettingsViewActions.ResetReleaseNotesActivityHasBeenDisplayed -> {}
         }
     }
 
