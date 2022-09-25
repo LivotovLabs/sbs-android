@@ -24,6 +24,7 @@ import org.matrix.android.sdk.api.session.user.model.User
 import org.matrix.android.sdk.internal.SessionManager
 import org.matrix.android.sdk.internal.crypto.crosssigning.UpdateTrustWorker
 import org.matrix.android.sdk.internal.crypto.crosssigning.UpdateTrustWorkerDataRepository
+import org.matrix.android.sdk.internal.database.model.ContactUserEntity
 import org.matrix.android.sdk.internal.di.SessionDatabase
 import org.matrix.android.sdk.internal.session.SessionComponent
 import org.matrix.android.sdk.internal.session.profile.GetProfileInfoTask
@@ -84,6 +85,7 @@ internal class UpdateUserWorker(context: Context, params: WorkerParameters, sess
         monarchy.awaitTransaction {
             Timber.d("## saveLocally() - in transaction")
             it.insertOrUpdate(userEntities)
+            it.insertOrUpdate(userEntities.map { ue -> ContactUserEntity(ue.userId, ue.displayName, ue.avatarUrl) }.toList())
         }
         Timber.d("## saveLocally() - END")
     }
