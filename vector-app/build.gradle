@@ -31,24 +31,9 @@ knit {
 }
 
 // Note: 2 digits max for each value
-ext.versionMajor = 1
-ext.versionMinor = 5
-// Note: even values are reserved for regular release, odd values for hotfix release.
-// When creating a hotfix, you should decrease the value, since the current value
-// is the value for the next regular release.
-ext.versionPatch = 2
-
-static def getGitTimestamp() {
-    def cmd = 'git show -s --format=%ct'
-    return cmd.execute().text.trim() as Long
-}
-
-static def generateVersionCodeFromTimestamp() {
-    // It's unix timestamp, minus timestamp of October 3rd 2018 (first commit date) divided by 100: It's incremented by one every 100 seconds.
-    // plus 20_000_000 for compatibility reason with the previous way the Version Code was computed
-    // Note that the result will be multiplied by 10 when adding the digit for the arch
-    return ((getGitTimestamp() - 1_538_524_800) / 100).toInteger() + 20_000_000
-}
+ext.versionMajor = 2
+ext.versionMinor = 0
+ext.versionPatch = 0
 
 def generateVersionCodeFromVersionName() {
     // plus 4_000_000 for compatibility reason with the previous way the Version Code was computed
@@ -57,24 +42,20 @@ def generateVersionCodeFromVersionName() {
 }
 
 def getVersionCode() {
-    if (gitBranchName() == "develop") {
-        return generateVersionCodeFromTimestamp()
-    } else {
-        return generateVersionCodeFromVersionName()
-    }
+    return generateVersionCodeFromVersionName()
 }
 
-static def gitRevision() {
+def gitRevision() {
     def cmd = "git rev-parse --short=8 HEAD"
     return cmd.execute().text.trim()
 }
 
-static def gitRevisionDate() {
+def gitRevisionDate() {
     def cmd = "git show -s --format=%ci HEAD^{commit}"
     return cmd.execute().text.trim()
 }
 
-static def gitBranchName() {
+def gitBranchName() {
     def fromEnv = System.env.BUILDKITE_BRANCH as String ?: ""
 
     if (!fromEnv.isEmpty()) {
@@ -87,7 +68,7 @@ static def gitBranchName() {
 }
 
 // For Google Play build, build on any other branch than main will have a "-dev" suffix
-static def getGplayVersionSuffix() {
+def getGplayVersionSuffix() {
     if (gitBranchName() == "main") {
         return ""
     } else {
@@ -95,13 +76,13 @@ static def getGplayVersionSuffix() {
     }
 }
 
-static def gitTag() {
+def gitTag() {
     def cmd = "git describe --exact-match --tags"
     return cmd.execute().text.trim()
 }
 
 // For F-Droid build, build on a not tagged commit will have a "-dev" suffix
-static def getFdroidVersionSuffix() {
+def getFdroidVersionSuffix() {
     if (gitTag() == "") {
         return "-dev"
     } else {
@@ -120,8 +101,6 @@ project.android.buildTypes.all { buildType ->
 // x86 must have greater values than arm
 // 64 bits have greater value than 32 bits
 ext.abiVersionCodes = ["armeabi-v7a": 1, "arm64-v8a": 2, "x86": 3, "x86_64": 4].withDefault { 0 }
-
-def buildNumber = System.env.BUILDKITE_BUILD_NUMBER as Integer ?: 0
 
 android {
     // Due to a bug introduced in Android gradle plugin 3.6.0, we have to specify the ndk version to use
@@ -145,7 +124,7 @@ android {
         versionCode project.getVersionCode()
 
         // Required for sonar analysis
-        versionName "${versionMajor}.${versionMinor}.${versionPatch}-sonar"
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
         // Generate a random app task affinity
         manifestPlaceholders = [appTaskAffinitySuffix: "H_${gitRevision()}"]
@@ -153,7 +132,7 @@ android {
         buildConfigField "String", "GIT_REVISION", "\"${gitRevision()}\""
         buildConfigField "String", "GIT_REVISION_DATE", "\"${gitRevisionDate()}\""
         buildConfigField "String", "GIT_BRANCH_NAME", "\"${gitBranchName()}\""
-        buildConfigField "String", "BUILD_NUMBER", "\"${buildNumber}\""
+        buildConfigField "String", "BUILD_NUMBER", "\"${gitRevision()}\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
