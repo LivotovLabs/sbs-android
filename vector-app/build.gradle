@@ -33,7 +33,7 @@ knit {
 // Note: 2 digits max for each value
 ext.versionMajor = 2
 ext.versionMinor = 0
-ext.versionPatch = 0
+ext.versionPatch = 2
 
 def generateVersionCodeFromVersionName() {
     // plus 4_000_000 for compatibility reason with the previous way the Version Code was computed
@@ -69,11 +69,7 @@ def gitBranchName() {
 
 // For Google Play build, build on any other branch than main will have a "-dev" suffix
 def getGplayVersionSuffix() {
-    if (gitBranchName() == "main") {
-        return ""
-    } else {
-        return "-dev"
-    }
+    return ""
 }
 
 def gitTag() {
@@ -233,7 +229,7 @@ android {
                 optimizeCode true
                 proguardFiles 'proguard-rules.pro'
             }
-            // signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
 
         nightly {
