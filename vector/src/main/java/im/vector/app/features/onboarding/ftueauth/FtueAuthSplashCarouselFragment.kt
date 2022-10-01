@@ -87,7 +87,7 @@ class FtueAuthSplashCarouselFragment :
             debouncedClicks { splashSubmit(isAlreadyHaveAccountEnabled) }
         }
         views.loginSplashAlreadyHaveAccount.apply {
-            isVisible = isAlreadyHaveAccountEnabled
+            isVisible = false
             debouncedClicks { alreadyHaveAnAccount() }
         }
 
