@@ -18,6 +18,7 @@ package im.vector.app.features.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -47,6 +48,7 @@ import im.vector.app.features.call.SharedKnownCallsViewModel
 import im.vector.app.features.call.VectorCallActivity
 import im.vector.app.features.call.dialpad.PstnDialActivity
 import im.vector.app.features.call.webrtc.WebRtcCallManager
+import im.vector.app.features.createdirect.CreateDirectRoomActivity
 import im.vector.app.features.home.room.list.actions.RoomListSharedAction
 import im.vector.app.features.home.room.list.actions.RoomListSharedActionViewModel
 import im.vector.app.features.home.room.list.home.HomeRoomListFragment
@@ -148,9 +150,9 @@ class NewHomeDetailFragment :
             add(R.id.roomListContainer, HomeRoomListFragment::class.java, null, HOME_ROOM_LIST_FRAGMENT_TAG)
         }
 
-        viewModel.onEach(HomeDetailViewState::selectedSpace) { selectedSpace ->
-            onSpaceChange(selectedSpace)
-        }
+//        viewModel.onEach(HomeDetailViewState::selectedSpace) { selectedSpace ->
+//            onSpaceChange(selectedSpace)
+//        }
 
         viewModel.observeViewEvents { viewEvent ->
             when (viewEvent) {
@@ -235,7 +237,6 @@ class NewHomeDetailFragment :
 
     private fun refreshSpaceState() {
         spaceStateHandler.getCurrentSpace()?.let {
-            onSpaceChange(it)
         }
     }
 
@@ -297,10 +298,6 @@ class NewHomeDetailFragment :
         )
     }
 
-    private fun onSpaceChange(spaceSummary: RoomSummary?) {
-        views.collapsingToolbar.title = (spaceSummary?.displayName ?: getString(R.string.all_chats))
-    }
-
     private fun setupKeysBackupBanner() {
         serverBackupStatusViewModel.handle(ServerBackupStatusAction.OnBannerDisplayed)
         serverBackupStatusViewModel
@@ -323,12 +320,21 @@ class NewHomeDetailFragment :
     private fun setupToolbar() {
         setupToolbar(views.toolbar)
 
-        views.collapsingToolbar.debouncedClicks(::openSpaceSettings)
-        views.toolbar.debouncedClicks(::openSpaceSettings)
+        views.collapsingToolbar.expandedTitleGravity = Gravity.RIGHT;
+        views.collapsingToolbar.collapsedTitleGravity = Gravity.RIGHT;
+        views.collapsingToolbar.title = getString(R.string.contacts_book_title)
+        views.toolbar.title = getString(R.string.contacts_book_title)
+
+        views.collapsingToolbar.debouncedClicks(::openContacts)
+        views.toolbar.debouncedClicks(::openContacts)
 
         views.avatar.debouncedClicks {
             navigator.openSettings(requireContext())
         }
+    }
+
+    private fun openContacts() {
+        startActivity(CreateDirectRoomActivity.getIntent(requireActivity()))
     }
 
     private fun openSpaceSettings() = withState(viewModel) { viewState ->

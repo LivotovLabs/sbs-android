@@ -2730,7 +2730,7 @@
 
     <string name="loading_contact_book">Retrieving your contacts…</string>
     <string name="empty_contact_book">Your contact book is empty</string>
-    <string name="contacts_book_title">Contacts book</string>
+    <string name="contacts_book_title">Contacts</string>
     <string name="phone_book_perform_lookup">Search for contacts on Matrix</string>
 
     <string name="three_pid_revoke_invite_dialog_title">Revoke invite</string>
@@ -3317,4 +3317,16 @@
     <string name="onboarding_new_app_layout_feedback_message">Tap top right to see the option to feedback.</string>
     <string name="onboarding_new_app_layout_button_try">Try it out</string>
 
+
+    <string name="pending_contacts_header">Pending Auth</string>
+    <string name="active_contacts_header">Active Chats</string>
+    <string name="normal_contacts_header">Recent Contacts</string>
+    <string name="empty_contacts">No Contacts Yet</string>
+    <string name="add_contacts_menu">Add Contact</string>
+    <string name="add_contact_title">Add Contact</string>
+    <string name="add_contact_hint">Type username</string>
+    <string name="user_not_found">User %s not found</string>
+    <string name="delete_contact_title">Delete Contact</string>
+    <string name="delete_contact_confirmation">Are you sure you want to delete %s?</string>
+    <string name="general_cancel">Cancel</string>
 </resources>

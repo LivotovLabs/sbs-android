@@ -18,6 +18,7 @@ package org.matrix.android.sdk.api.session.user
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
+import org.matrix.android.sdk.api.session.user.model.ContactUser
 import org.matrix.android.sdk.api.session.user.model.User
 import org.matrix.android.sdk.api.util.Optional
 
@@ -72,6 +73,9 @@ interface UserService {
      * Provides local (app scoped) contacts list
      */
     fun getLocalDirectory(): List<User>
+
+    fun getLocalDirectoryLive(): LiveData<List<ContactUser>>
+
     fun addToContacts(user: User)
 
     /**
@@ -91,4 +95,6 @@ interface UserService {
      * Note: once done, for the change to take effect, you have to request an initial sync.
      */
     suspend fun unIgnoreUserIds(userIds: List<String>)
+
+    suspend fun deleteContact(userId: String)
 }

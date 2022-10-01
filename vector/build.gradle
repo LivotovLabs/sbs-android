@@ -124,6 +124,9 @@ dependencies {
     implementation "androidx.transition:transition:1.4.1"
     implementation libs.androidx.biometric
 
+    implementation 'com.afollestad.material-dialogs:core:3.3.0'
+    implementation 'com.afollestad.material-dialogs:input:3.3.0'
+
     api "org.threeten:threetenbp:1.4.0:no-tzdb"
     api "com.gabrielittner.threetenbp:lazythreetenbp:0.11.0"
 

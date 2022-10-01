@@ -77,8 +77,8 @@ class CallTransferActivity : VectorBaseActivity<ActivityCallTransferBinding>() {
         views.callTransferConnectAction.debouncedClicks {
             when (views.callTransferTabLayout.selectedTabPosition) {
                 CallTransferPagerAdapter.USER_LIST_INDEX -> {
-                    val selectedUser = sectionsPagerAdapter.userListFragment?.getCurrentState()?.getSelectedMatrixId()?.firstOrNull() ?: return@debouncedClicks
-                    val result = CallTransferResult.ConnectWithUserId(views.callTransferConsultCheckBox.isChecked, selectedUser)
+                    val selectedUser = sectionsPagerAdapter.userListFragment?.getCurrentState()?.directoryUsers?.firstOrNull() ?: return@debouncedClicks
+                    val result = CallTransferResult.ConnectWithUserId(views.callTransferConsultCheckBox.isChecked, selectedUser.userId)
                     handleComplete(result)
                 }
                 CallTransferPagerAdapter.DIAL_PAD_INDEX -> {

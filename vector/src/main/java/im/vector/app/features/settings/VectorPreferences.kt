@@ -811,7 +811,7 @@ class VectorPreferences @Inject constructor(
      * @return true if animated image attachments should automatically play their animation in the timeline
      */
     fun autoplayAnimatedImages(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_AUTOPLAY_ANIMATED_IMAGES, false)
+        return defaultPrefs.getBoolean(SETTINGS_AUTOPLAY_ANIMATED_IMAGES, true)
     }
 
     /**
@@ -1168,7 +1168,7 @@ class VectorPreferences @Inject constructor(
      * Indicates whether or not deferred DMs are enabled.
      */
     fun isDeferredDmEnabled(): Boolean {
-        return defaultPrefs.getBoolean(SETTINGS_LABS_DEFERRED_DM_KEY, getDefault(R.bool.settings_labs_deferred_dm_default))
+        return false // now always false
     }
 
     fun showLiveSenderInfo(): Boolean {

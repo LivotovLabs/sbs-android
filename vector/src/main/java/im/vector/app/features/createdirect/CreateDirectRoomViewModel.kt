@@ -16,12 +16,14 @@
 
 package im.vector.app.features.createdirect
 
+import android.content.Context
 import com.airbnb.mvrx.Loading
 import com.airbnb.mvrx.MavericksViewModelFactory
 import com.airbnb.mvrx.Success
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import im.vector.app.R
 import im.vector.app.core.di.MavericksAssistedViewModelFactory
 import im.vector.app.core.di.hiltMavericksViewModelFactory
 import im.vector.app.core.mvrx.runCatchingToAsync
@@ -44,6 +46,7 @@ import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
 
 class CreateDirectRoomViewModel @AssistedInject constructor(
         @Assisted initialState: CreateDirectRoomViewState,
+        private val context: Context,
         private val rawService: RawService,
         private val vectorPreferences: VectorPreferences,
         val session: Session,
@@ -131,7 +134,8 @@ class CreateDirectRoomViewModel @AssistedInject constructor(
                     session.roomService().createLocalRoom(roomParams)
                 } else {
                     analyticsTracker.capture(CreatedRoom(isDM = roomParams.isDirect.orFalse()))
-                    session.roomService().createRoom(roomParams)
+                    val roomId = session.roomService().createRoom(roomParams)
+                    roomId
                 }
             }
 

@@ -16,6 +16,7 @@
 
 package im.vector.app.features.userdirectory
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -25,6 +26,8 @@ import android.view.ViewGroup
 import android.widget.ScrollView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.args
 import com.airbnb.mvrx.fragmentViewModel
@@ -77,38 +80,34 @@ class UserListFragment :
         sharedActionViewModel = activityViewModelProvider.get(UserListSharedActionViewModel::class.java)
         if (args.showToolbar) {
             setupToolbar(views.userListToolbar)
-                    .setTitle(args.title)
                     .allowBack(useCross = true)
             views.userListToolbar.isVisible = true
         } else {
             views.userListToolbar.isVisible = false
         }
+
         setupRecyclerView()
-        setupSearchView()
 
-        homeServerCapabilitiesViewModel.onEach {
-            views.userListE2EbyDefaultDisabled.isVisible = !it.isE2EByDefault
-        }
-
-        viewModel.onEach(UserListViewState::pendingSelections) {
-            renderSelectedUsers(it)
-        }
-
-        viewModel.observeViewEvents {
-            when (it) {
-                is UserListViewEvents.OpenShareMatrixToLink -> {
-                    val text = getString(R.string.invite_friends_text, it.link)
-                    startSharePlainTextIntent(
-                            context = requireContext(),
-                            activityResultLauncher = null,
-                            chooserTitle = getString(R.string.invite_friends),
-                            text = text,
-                            extraTitle = getString(R.string.invite_friends_rich_title)
-                    )
+        viewModel.onEach(UserListViewState::unknownUser) {
+            if (it!=null) {
+                MaterialDialog(requireActivity()).show {
+                    title(R.string.add_contact_title)
+                    message(text = getString(R.string.user_not_found, it))
+                    positiveButton(R.string.action_close)
                 }
-                is UserListViewEvents.Failure -> showFailure(it.throwable)
-                is UserListViewEvents.OnPoliciesRetrieved -> showConsentDialog(it)
+                viewModel.resetUnknownUserMessage()
             }
+        }
+
+        viewModel.onEach(UserListViewState::busy) {
+            views.busyBox.visibility = when(it) {
+                true -> View.VISIBLE
+                else -> View.GONE
+            }
+        }
+
+        viewModel.onEach { state ->
+            userListController.setData(state)
         }
     }
 
@@ -118,23 +117,30 @@ class UserListFragment :
     }
 
     override fun handlePrepareMenu(menu: Menu) {
-        if (args.submitMenuItemId == -1) return
-        withState(viewModel) {
-            val showMenuItem = it.pendingSelections.isNotEmpty()
-            menu.findItem(args.submitMenuItemId).isVisible = showMenuItem
-        }
     }
 
     override fun handleMenuItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            args.submitMenuItemId -> {
-                withState(viewModel) {
-                    sharedActionViewModel.post(UserListSharedAction.OnMenuItemSubmitClick(it.pendingSelections))
-                }
+            args.addContactMenuId -> {
+                onAskForNewContactNameToAdd()
                 true
             }
             else -> false
         }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun onAskForNewContactNameToAdd() {
+        MaterialDialog(requireActivity())
+                .title(R.string.add_contact_title)
+
+                .show {
+                    input(hintRes = R.string.add_contact_hint) { _, text ->
+                        viewModel.handle(UserListAction.AddContactIfPresent(text.toString()))
+                    }
+                    negativeButton(R.string.general_cancel)
+                    positiveButton(R.string.ok)
+                }
     }
 
     private fun setupRecyclerView() {
@@ -143,90 +149,31 @@ class UserListFragment :
         views.userListRecyclerView.configureWith(userListController, disableItemAnimation = true)
     }
 
-    private fun setupSearchView() {
-        views.userListSearch
-                .textChanges()
-                .onStart { emit(views.userListSearch.text) }
-                .onEach { text ->
-                    val searchValue = text.trim()
-                    val action = if (searchValue.isBlank()) {
-                        UserListAction.ClearSearchUsers
-                    } else {
-                        UserListAction.SearchUsers("@${searchValue}:${getString(R.string.matrix_org_user_domain)}")
-                    }
-                    viewModel.handle(action)
-                }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
+    override fun invalidate() {
 
-        views.userListSearch.setupAsSearch()
-        views.userListSearch.requestFocus()
-    }
-
-    override fun invalidate() = withState(viewModel) {
-        userListController.setData(it)
-    }
-
-    private fun renderSelectedUsers(selections: Set<PendingSelection>) {
-        invalidateOptionsMenu()
-
-        val currentNumberOfChips = views.chipGroup.childCount
-        val newNumberOfChips = selections.size
-
-        views.chipGroup.removeAllViews()
-        selections.forEach { addChipToGroup(it) }
-
-        // Scroll to the bottom when adding chips. When removing chips, do not scroll
-        if (newNumberOfChips >= currentNumberOfChips) {
-            viewLifecycleOwner.lifecycleScope.launchWhenResumed {
-                views.chipGroupScrollView.fullScroll(ScrollView.FOCUS_DOWN)
-            }
-        }
-    }
-
-    private fun addChipToGroup(pendingSelection: PendingSelection) {
-        val chip = Chip(requireContext())
-        chip.setChipBackgroundColorResource(android.R.color.transparent)
-        chip.chipStrokeWidth = dimensionConverter.dpToPx(1).toFloat()
-        chip.text = pendingSelection.getBestName()
-        chip.isClickable = true
-        chip.isCheckable = false
-        chip.isCloseIconVisible = true
-        views.chipGroup.addView(chip)
-        chip.setOnCloseIconClickListener {
-            viewModel.handle(UserListAction.RemovePendingSelection(pendingSelection))
-        }
     }
 
     fun getCurrentState() = withState(viewModel) { it }
 
-    override fun onInviteFriendClick() {
-        viewModel.handle(UserListAction.ComputeMatrixToLinkForSharing)
-    }
-
-    override fun onContactBookClick() {
-        sharedActionViewModel.post(UserListSharedAction.OpenPhoneBook)
-    }
-
     override fun onItemClick(user: User) {
         view?.hideKeyboard()
-        viewModel.handle(UserListAction.AddPendingSelection(PendingSelection.UserPendingSelection(user)))
+        withState(viewModel) { state ->
+            if (!state.busy) sharedActionViewModel.post(UserListSharedAction.OnMenuItemSubmitClick(setOf(PendingSelection.UserPendingSelection(user))))
+        }
     }
 
-    override fun onMatrixIdClick(matrixId: String) {
+    override fun onItemLongClick(user: User) {
         view?.hideKeyboard()
-        viewModel.handle(UserListAction.AddPendingSelection(PendingSelection.UserPendingSelection(User(matrixId))))
-    }
-
-    override fun onThreePidClick(threePid: ThreePid) {
-        view?.hideKeyboard()
-        viewModel.handle(UserListAction.AddPendingSelection(PendingSelection.ThreePidPendingSelection(threePid)))
-    }
-
-    override fun onSetupDiscovery() {
-        navigator.openSettings(
-                requireContext(),
-                VectorSettingsActivity.EXTRA_DIRECT_ACCESS_DISCOVERY_SETTINGS
-        )
+        withState(viewModel) { state ->
+            if (!state.busy) MaterialDialog(requireActivity())
+                    .title(R.string.delete_contact_title)
+                    .message(text = getString(R.string.delete_contact_confirmation, user.displayName?:user.userId))
+                    .negativeButton(R.string.general_cancel)
+                    .positiveButton(R.string.ok) {
+                        viewModel.deleteContact(user)
+                    }
+                    .show()
+        }
     }
 
     override fun onResume() {
@@ -234,19 +181,4 @@ class UserListFragment :
         viewModel.handle(UserListAction.Resumed)
     }
 
-    override fun giveIdentityServerConsent() {
-        viewModel.handle(UserListAction.UserConsentRequest)
-    }
-
-    private fun showConsentDialog(event: UserListViewEvents.OnPoliciesRetrieved) {
-        requireContext().showIdentityServerConsentDialog(
-                event.identityServerWithTerms,
-                consentCallBack = { viewModel.handle(UserListAction.UpdateUserConsent(true)) }
-        )
-    }
-
-    override fun onUseQRCode() {
-        view?.hideKeyboard()
-        sharedActionViewModel.post(UserListSharedAction.AddByQrCode)
-    }
 }

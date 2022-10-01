@@ -24,6 +24,7 @@ import im.vector.app.core.utils.DebouncedClickListener
  * View.OnClickListener lambda.
  */
 typealias ClickListener = (View) -> Unit
+typealias LongClickListener = (View) -> Boolean
 
 fun View.onClick(listener: ClickListener?) {
     if (listener == null) {
@@ -32,6 +33,15 @@ fun View.onClick(listener: ClickListener?) {
         setOnClickListener(DebouncedClickListener(listener))
     }
 }
+
+fun View.onLongClick(listener: LongClickListener?) {
+    if (listener == null) {
+        setOnLongClickListener(null)
+    } else {
+        setOnLongClickListener { v -> listener(v) }
+    }
+}
+
 
 fun TextView.onLongClickIgnoringLinks(listener: View.OnLongClickListener?) {
     if (listener == null) {

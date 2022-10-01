@@ -50,7 +50,7 @@ class CallTransferPagerAdapter(
             fragment.arguments = UserListFragmentArgs(
                     title = "",
                     menuResId = -1,
-                    submitMenuItemId = -1,
+                    addContactMenuId = -1,
                     singleSelection = true,
                     showInviteActions = false,
                     showToolbar = false,

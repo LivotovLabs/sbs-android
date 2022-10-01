@@ -92,6 +92,17 @@ internal class UserDataSource @Inject constructor(
         }
     }
 
+    fun getContactsLive(): LiveData<List<ContactUser>> {
+        return monarchy.findAllMappedWithChanges(
+                { realm ->
+                    realm.where(ContactUserEntity::class.java)
+                            .isNotEmpty(ContactUserEntityFields.USER_ID)
+                            .sort(ContactUserEntityFields.DISPLAY_NAME)
+                },
+                { it.asDomain() }
+        )
+    }
+
     fun getUsersLive(): LiveData<List<User>> {
         return monarchy.findAllMappedWithChanges(
                 { realm ->
@@ -140,6 +151,15 @@ internal class UserDataSource @Inject constructor(
     fun addContact(contact: ContactUser) {
         monarchy.runTransactionSync {
             it.insertOrUpdate(UserEntityFactory.createContact(contact.toUser()))
+        }
+    }
+
+    fun deleteContact(id: String) {
+        realmSessionProvider.withRealm { realm ->
+            val userEntity = ContactUserEntity.where(realm, id).findFirst()
+            monarchy.runTransactionSync {
+                userEntity?.deleteFromRealm()
+            }
         }
     }
 }

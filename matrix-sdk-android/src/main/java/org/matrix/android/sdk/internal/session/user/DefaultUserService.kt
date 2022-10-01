@@ -63,6 +63,10 @@ internal class DefaultUserService @Inject constructor(
         return userDataSource.getContacts().map { it.toUser() }
     }
 
+    override fun getLocalDirectoryLive(): LiveData<List<ContactUser>> {
+        return userDataSource.getContactsLive()
+    }
+
     override fun addToContacts(user: User) {
         userDataSource.addContact(ContactUser(user.userId, user.displayName, user.avatarUrl))
     }
@@ -88,5 +92,9 @@ internal class DefaultUserService @Inject constructor(
     override suspend fun unIgnoreUserIds(userIds: List<String>) {
         val params = UpdateIgnoredUserIdsTask.Params(userIdsToUnIgnore = userIds.toList())
         updateIgnoredUserIdsTask.execute(params)
+    }
+
+    override suspend fun deleteContact(userId: String) {
+        userDataSource.deleteContact(userId)
     }
 }

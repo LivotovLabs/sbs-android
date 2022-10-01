@@ -17,14 +17,9 @@
 package im.vector.app.features.userdirectory
 
 import im.vector.app.core.platform.VectorViewModelAction
+import org.matrix.android.sdk.api.session.user.model.User
 
 sealed class UserListAction : VectorViewModelAction {
-    data class SearchUsers(val value: String) : UserListAction()
-    object ClearSearchUsers : UserListAction()
-    data class AddPendingSelection(val pendingSelection: PendingSelection) : UserListAction()
-    data class RemovePendingSelection(val pendingSelection: PendingSelection) : UserListAction()
-    object ComputeMatrixToLinkForSharing : UserListAction()
-    object UserConsentRequest : UserListAction()
-    data class UpdateUserConsent(val consent: Boolean) : UserListAction()
+    data class AddContactIfPresent(val value: String) : UserListAction()
     object Resumed : UserListAction()
 }

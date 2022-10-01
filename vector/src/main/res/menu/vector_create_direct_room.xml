@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_create_direct_room"
-        android:title="@string/create_room_action_go"
+        android:id="@+id/action_create_contact"
+        android:title="@string/add_contacts_menu"
         app:showAsAction="always" />
 
 </menu>

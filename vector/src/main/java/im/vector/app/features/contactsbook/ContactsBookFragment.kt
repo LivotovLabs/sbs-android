@@ -131,13 +131,11 @@ class ContactsBookFragment :
 
     override fun onMatrixIdClick(matrixId: String) {
         view?.hideKeyboard()
-        viewModel.handle(UserListAction.AddPendingSelection(PendingSelection.UserPendingSelection(User(matrixId))))
         sharedActionViewModel.post(UserListSharedAction.GoBack)
     }
 
     override fun onThreePidClick(threePid: ThreePid) {
         view?.hideKeyboard()
-        viewModel.handle(UserListAction.AddPendingSelection(PendingSelection.ThreePidPendingSelection(threePid)))
         sharedActionViewModel.post(UserListSharedAction.GoBack)
     }
 }
