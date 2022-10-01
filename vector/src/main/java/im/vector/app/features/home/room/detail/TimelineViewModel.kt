@@ -903,6 +903,13 @@ class TimelineViewModel @AssistedInject constructor(
         viewModelScope.launch {
             try {
                 session.roomService().joinRoom(initialState.roomId)
+                session.roomService().getRoom(initialState.roomId)?.let { room ->
+                    room.roomSummary()?.otherMemberIds.orEmpty().forEach { userId ->
+                        session.userService().getUser(userId)?.let {
+                            session.userService().addToContacts(it)
+                        }
+                    }
+                }
                 trackRoomJoined()
             } catch (throwable: Throwable) {
                 _viewEvents.post(RoomDetailViewEvents.Failure(throwable, showInDialog = true))

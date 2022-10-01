@@ -138,6 +138,14 @@ class InvitesViewModel @AssistedInject constructor(
             )
         }
 
+        session.roomService().getRoom(roomId)?.let { room ->
+            room.roomSummary()?.otherMemberIds.orEmpty().forEach { userId ->
+                session.userService().getUser(userId)?.let {
+                    session.userService().addToContacts(it)
+                }
+            }
+        }
+
         _viewEvents.post(InvitesViewEvents.OpenRoom(action.roomSummary, shouldCloseInviteView, isInviteAlreadySelected = true))
     }
 

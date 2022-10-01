@@ -63,6 +63,23 @@ class UserListViewModel @AssistedInject constructor(
         }
 
         observeUsers()
+        updateNewIncomingContacts()
+    }
+
+    private fun updateNewIncomingContacts() {
+        viewModelScope.launch {
+            val builder = RoomSummaryQueryParams.Builder().also {
+                it.memberships = listOf(Membership.JOIN)
+            }
+
+            session.roomService().getRoomSummaries(builder.build()).forEach { rs ->
+                rs.otherMemberIds.forEach { userId ->
+                    tryOrNull { session.profileService().getProfileAsUser(userId) }?.let {
+                        session.userService().addToContacts(it)
+                    }
+                }
+            }
+        }
     }
 
     override fun onCleared() {
