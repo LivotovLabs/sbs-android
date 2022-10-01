@@ -3329,4 +3329,5 @@
     <string name="delete_contact_title">Delete Contact</string>
     <string name="delete_contact_confirmation">Are you sure you want to delete %s?</string>
     <string name="general_cancel">Cancel</string>
+    <string name="signuo_setting_up">Setting up...</string>
 </resources>

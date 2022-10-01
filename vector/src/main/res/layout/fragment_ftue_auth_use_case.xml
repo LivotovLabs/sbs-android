@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="@string/ftue_auth_use_case_title"
+            android:text="@string/signuo_setting_up"
             android:textColor="?vctr_content_primary"
             app:layout_constraintBottom_toTopOf="@id/useCaseHeaderSubtitle"
             app:layout_constraintEnd_toEndOf="@id/useCaseGutterEnd"
@@ -93,6 +93,7 @@
             app:layout_constraintEnd_toEndOf="@id/useCaseGutterEnd"
             app:layout_constraintStart_toStartOf="@id/useCaseGutterStart"
             app:layout_constraintTop_toBottomOf="@id/titleContentSpacing"
+            android:visibility="invisible"
             tools:drawableStartCompat="@drawable/bg_feature_icon" />
 
         <TextView
@@ -111,7 +112,9 @@
             app:layout_constraintEnd_toEndOf="@id/useCaseGutterEnd"
             app:layout_constraintStart_toStartOf="@id/useCaseGutterStart"
             app:layout_constraintTop_toBottomOf="@id/useCaseOptionOne"
-            tools:drawableStartCompat="@drawable/bg_feature_icon" />
+            tools:drawableStartCompat="@drawable/bg_feature_icon"
+            android:visibility="invisible"
+            />
 
         <TextView
             android:id="@+id/useCaseOptionThree"
@@ -129,7 +132,9 @@
             app:layout_constraintEnd_toEndOf="@id/useCaseGutterEnd"
             app:layout_constraintStart_toStartOf="@id/useCaseGutterStart"
             app:layout_constraintTop_toBottomOf="@id/useCaseOptionTwo"
-            tools:drawableStartCompat="@drawable/bg_feature_icon" />
+            tools:drawableStartCompat="@drawable/bg_feature_icon"
+            android:visibility="invisible"
+            />
 
         <TextView
             android:id="@+id/useCaseSkip"
@@ -141,9 +146,12 @@
             android:textColor="?vctr_content_secondary"
             app:layout_constraintBottom_toTopOf="@id/contentFooterSpacing"
             app:layout_constraintEnd_toEndOf="@id/useCaseGutterEnd"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/useCaseGutterStart"
             app:layout_constraintTop_toBottomOf="@id/useCaseOptionThree"
-            tools:text="Not sure yet? You can skip this question" />
+            tools:text="Not sure yet? You can skip this question"
+            android:visibility="invisible"
+            />
 
         <Space
             android:id="@+id/contentFooterSpacing"
@@ -151,12 +159,15 @@
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/useCaseFooter"
             app:layout_constraintHeight_min="16dp"
+
+            android:visibility="invisible"
             app:layout_constraintTop_toBottomOf="@id/useCaseSkip" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/useCaseConnectToServerGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:constraint_referenced_ids="useCaseFooter,useCaseConnectToServer" />
 
         <TextView
@@ -165,6 +176,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:visibility="invisible"
             android:text="@string/ftue_auth_use_case_join_existing_server"
             android:textColor="?vctr_content_secondary"
             app:layout_constraintBottom_toTopOf="@id/useCaseConnectToServer"
@@ -178,6 +190,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ftue_auth_use_case_connect_to_server"
+            android:visibility="invisible"
             android:textAllCaps="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/useCaseGutterEnd"

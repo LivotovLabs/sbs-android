@@ -317,7 +317,7 @@ class HomeActivity :
     }
 
     private fun handleShowAnalyticsOptIn() {
-        navigator.openAnalyticsOptIn(this)
+        //navigator.openAnalyticsOptIn(this)
     }
 
     /**
@@ -564,14 +564,14 @@ class HomeActivity :
         if (vectorUncaughtExceptionHandler.didAppCrash()) {
             vectorUncaughtExceptionHandler.clearAppCrashStatus()
 
-            MaterialAlertDialogBuilder(this)
-                    .setMessage(R.string.send_bug_report_app_crashed)
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.yes) { _, _ -> bugReporter.openBugReportScreen(this) }
-                    .setNegativeButton(R.string.no) { _, _ -> bugReporter.deleteCrashFile() }
-                    .show()
+//            MaterialAlertDialogBuilder(this)
+//                    .setMessage(R.string.send_bug_report_app_crashed)
+//                    .setCancelable(false)
+//                    .setPositiveButton(R.string.yes) { _, _ -> bugReporter.openBugReportScreen(this) }
+//                    .setNegativeButton(R.string.no) { _, _ -> bugReporter.deleteCrashFile() }
+//                    .show()
         } else {
-            disclaimerDialog.showDisclaimerDialog(this)
+//            disclaimerDialog.showDisclaimerDialog(this)
         }
 
         // Force remote backup state update to update the banner if needed

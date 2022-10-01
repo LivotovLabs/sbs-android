@@ -34,21 +34,11 @@
 
         <ImageView
             android:id="@+id/loginSplashLogo"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:importantForAccessibility="no"
-            android:src="@drawable/element_logo_green"
+            android:src="@mipmap/ic_logo_app"
             android:transitionName="loginLogoTransition" />
-
-        <ImageView
-            android:id="@+id/logoType"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/element_logotype"
-            app:tint="?colorSecondary"
-            tools:ignore="MissingPrefix" />
 
     </LinearLayout>
 
@@ -201,6 +191,7 @@
         app:layout_constraintBottom_toTopOf="@id/loginSplashSpace5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/loginSplashSubmit" />
 
     <Space

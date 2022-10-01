@@ -76,6 +76,7 @@
         android:layout_height="wrap_content"
         android:text="@string/login_splash_already_have_account"
         android:textAllCaps="true"
+        android:visibility="gone"
         android:transitionName="loginSubmitTransition"
         app:layout_constraintBottom_toTopOf="@id/loginSplashBottomSpace"
         app:layout_constraintEnd_toEndOf="@id/splashCarouselGutterEnd"

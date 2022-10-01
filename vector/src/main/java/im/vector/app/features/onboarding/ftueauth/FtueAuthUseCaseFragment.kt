@@ -60,6 +60,7 @@ class FtueAuthUseCaseFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+        viewModel.handle(OnboardingAction.UpdateUseCase(FtueUseCase.SKIP))
     }
 
     private fun setupViews() {

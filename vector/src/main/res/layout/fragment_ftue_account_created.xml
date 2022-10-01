@@ -85,7 +85,7 @@
         android:id="@+id/accountCreatedSpace4"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/accountCreatedPersonalize"
+        app:layout_constraintBottom_toTopOf="@id/accountCreatedTakeMeHome"
         app:layout_constraintTop_toBottomOf="@id/accountCreatedSubtitle" />
 
     <androidx.constraintlayout.widget.Group
@@ -93,16 +93,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="accountCreatedPersonalize,accountCreatedTakeMeHome"
+        app:constraint_referenced_ids="accountCreatedTakeMeHome"
         tools:visibility="visible" />
 
     <Button
-        android:id="@+id/accountCreatedPersonalize"
+        android:id="@+id/accountCreatedTakeMeHome"
         style="@style/Widget.Vector.Button.Login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/element_background_light"
-        android:text="@string/ftue_account_created_personalize"
+        android:text="@string/ftue_account_created_take_me_home"
         android:textAllCaps="true"
         android:textColor="?colorSecondary"
         android:transitionName="loginSubmitTransition"
@@ -111,19 +111,7 @@
         app:layout_constraintStart_toStartOf="@id/ftueAuthGutterStart"
         app:layout_constraintTop_toBottomOf="@id/accountCreatedSpace4" />
 
-    <Button
-        android:id="@+id/accountCreatedTakeMeHome"
-        style="@style/Widget.Vector.Button.Text.Login"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/ftue_account_created_take_me_home"
-        android:textAllCaps="true"
-        android:textColor="@color/element_background_light"
-        android:transitionName="loginSubmitTransition"
-        app:layout_constraintBottom_toTopOf="@id/ctaBottomBarrier"
-        app:layout_constraintEnd_toEndOf="@id/ftueAuthGutterEnd"
-        app:layout_constraintStart_toStartOf="@id/ftueAuthGutterStart"
-        app:layout_constraintTop_toBottomOf="@id/accountCreatedPersonalize" />
+
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/takeMeHomeButtonGroup"

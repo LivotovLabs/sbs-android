@@ -52,5 +52,6 @@
         android:icon="@drawable/ic_home_search"
         android:title="@string/home_filter_placeholder_home"
         app:iconTint="?vctr_content_secondary"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>
