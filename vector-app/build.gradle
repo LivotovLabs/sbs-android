@@ -33,7 +33,7 @@ knit {
 // Note: 2 digits max for each value
 ext.versionMajor = 2
 ext.versionMinor = 0
-ext.versionPatch = 3
+ext.versionPatch = 5
 
 def generateVersionCodeFromVersionName() {
     // plus 4_000_000 for compatibility reason with the previous way the Version Code was computed
@@ -210,7 +210,7 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
-            resValue "string", "app_name", "D-SBS²"
+            resValue "string", "app_name", "D-Quasar"
             resValue "color", "launcher_background", "#000DBD8B"
 
             if (project.hasProperty("coverage")) {
@@ -219,7 +219,7 @@ android {
         }
 
         release {
-            resValue "string", "app_name", "SBS²"
+            resValue "string", "app_name", "Quasar"
             resValue "color", "launcher_background", "#000DBD8B"
             postprocessing {
                 removeUnusedCode true
@@ -235,7 +235,7 @@ android {
         nightly {
             initWith release
             versionNameSuffix "-nightly"
-            resValue "string", "app_name", "N-SBS²"
+            resValue "string", "app_name", "N-Quasar"
             resValue "color", "launcher_background", "#0007007E"
             // We need to copy paste this block, this is not done automatically by `initWith release`
             postprocessing {
