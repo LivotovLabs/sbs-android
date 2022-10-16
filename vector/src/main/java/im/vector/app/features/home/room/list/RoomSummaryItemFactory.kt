@@ -29,6 +29,7 @@ import im.vector.app.features.home.AvatarRenderer
 import im.vector.app.features.home.RoomListDisplayMode
 import im.vector.app.features.home.room.detail.timeline.format.DisplayableEventFormatter
 import im.vector.app.features.home.room.typing.TypingHelper
+import im.vector.app.features.settings.VectorPreferences
 import im.vector.lib.core.utils.epoxy.charsequence.toEpoxyCharSequence
 import org.matrix.android.sdk.api.session.room.members.ChangeMembershipState
 import org.matrix.android.sdk.api.session.room.model.Membership
@@ -40,6 +41,7 @@ import javax.inject.Inject
 class RoomSummaryItemFactory @Inject constructor(
         private val displayableEventFormatter: DisplayableEventFormatter,
         private val dateFormatter: VectorDateFormatter,
+        private val preferences: VectorPreferences,
         private val stringProvider: StringProvider,
         private val typingHelper: TypingHelper,
         private val avatarRenderer: AvatarRenderer,
@@ -130,7 +132,7 @@ class RoomSummaryItemFactory @Inject constructor(
         var latestFormattedEvent: CharSequence = ""
         var latestEventTime = ""
         val latestEvent = roomSummary.latestPreviewableEvent
-        if (latestEvent != null) {
+        if (latestEvent != null && ((latestEvent.root.ageLocalTs ?: 0) > preferences.getCutoffMinTsToHideAllEarlierEventsInRoom(roomSummary.roomId))) {
             latestFormattedEvent = displayableEventFormatter.format(latestEvent, roomSummary.isDirect, roomSummary.isDirect.not())
             latestEventTime = dateFormatter.format(latestEvent.root.originServerTs, DateFormatKind.ROOM_LIST)
         }

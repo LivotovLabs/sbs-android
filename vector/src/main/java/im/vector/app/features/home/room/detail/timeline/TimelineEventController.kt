@@ -379,6 +379,9 @@ class TimelineEventController @Inject constructor(
         }
         Timber.v("Time for building cache items: $timeForBuilding ms")
         return modelCache
+                .filter {
+                    (it?.eventTs ?: 0) > vectorPreferences.getCutoffMinTsToHideAllEarlierEventsInRoom(partialState.roomSummary?.roomId?:"")
+                }
                 .map { cacheItemData ->
                     val eventModel = if (cacheItemData == null || mergedHeaderItemFactory.isCollapsed(cacheItemData.localId)) {
                         null
@@ -460,7 +463,7 @@ class TimelineEventController @Inject constructor(
     private fun buildCacheItem(params: TimelineItemFactoryParams): CacheItemData {
         val event = params.event
         if (hasReachedInvite && hasUTD) {
-            return CacheItemData(event.localId, event.root.eventId)
+            return CacheItemData(event.localId, event.root.eventId, event.root.ageLocalTs?:0)
         }
         updateUTDStates(event, params.nextEvent)
         val eventModel = timelineItemFactory.create(params).also {
@@ -471,6 +474,7 @@ class TimelineEventController @Inject constructor(
         return CacheItemData(
                 localId = event.localId,
                 eventId = event.root.eventId,
+                eventTs = event.root.ageLocalTs?:0,
                 eventModel = eventModel,
                 isCacheable = isCacheable
         )
@@ -631,9 +635,15 @@ class TimelineEventController @Inject constructor(
         return positionOfReadMarker
     }
 
+    fun clearTimelineLocally() {
+        vectorPreferences.hideAllEventsBeforeTsForRoom(partialState.roomSummary?.roomId?:"", System.currentTimeMillis())
+        requestModelBuild()
+    }
+
     private data class CacheItemData(
             val localId: Long,
             val eventId: String?,
+            val eventTs: Long,
             val readReceiptsItem: ReadReceiptsItem? = null,
             val eventModel: EpoxyModel<*>? = null,
             val mergedHeaderModel: BasedMergedItem<*>? = null,

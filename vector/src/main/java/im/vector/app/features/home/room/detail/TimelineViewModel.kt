@@ -782,12 +782,14 @@ class TimelineViewModel @AssistedInject constructor(
                 when (itemId) {
                     R.id.menu_thread_timeline_view_in_room,
                     R.id.menu_thread_timeline_copy_link,
+                    R.id.timeline_clear,
                     R.id.menu_thread_timeline_share -> true
                     else -> false
                 }
             }
             else -> {
                 when (itemId) {
+                    R.id.timeline_clear -> true
                     R.id.timeline_setting -> true
                     R.id.invite -> state.canInvite
                     R.id.open_matrix_apps -> true

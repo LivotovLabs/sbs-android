@@ -1146,6 +1146,10 @@ class TimelineFragment :
                 navigator.openRoomProfile(requireActivity(), timelineArgs.roomId)
                 true
             }
+            R.id.timeline_clear -> {
+                timelineEventController.clearTimelineLocally()
+                true
+            }
             R.id.open_matrix_apps -> {
                 timelineViewModel.handle(RoomDetailAction.ManageIntegrations)
                 true

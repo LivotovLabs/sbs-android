@@ -11,6 +11,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/timeline_clear"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/clear"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/search"
         android:title="@string/search"
         app:showAsAction="never" />

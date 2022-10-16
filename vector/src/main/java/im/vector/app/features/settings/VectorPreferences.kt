@@ -236,6 +236,9 @@ class VectorPreferences @Inject constructor(
         // This key will be used to enable user for displaying live user info or not.
         const val SETTINGS_TIMELINE_SHOW_LIVE_SENDER_INFO = "SETTINGS_TIMELINE_SHOW_LIVE_SENDER_INFO"
 
+        // Local messages states
+        const val SETTINGS_TIMELINE_HIDE_EVENTS_BEFORE_TS = "SETTINGS_TIMELINE_HIDE_EVENTS_BEFORE_TS"
+
         // Possible values for TAKE_PHOTO_VIDEO_MODE
         const val TAKE_PHOTO_VIDEO_MODE_ALWAYS_ASK = 0
         const val TAKE_PHOTO_VIDEO_MODE_PHOTO = 1
@@ -336,6 +339,14 @@ class VectorPreferences @Inject constructor(
     }
 
     private fun getDefault(@BoolRes resId: Int) = context.resources.getBoolean(resId)
+
+    fun hideAllEventsBeforeTsForRoom(roomId: String, ts: Long) {
+        defaultPrefs.edit().putLong("${SETTINGS_TIMELINE_HIDE_EVENTS_BEFORE_TS}_$roomId", ts).apply()
+    }
+
+    fun getCutoffMinTsToHideAllEarlierEventsInRoom(roomId: String): Long {
+        return defaultPrefs.getLong("${SETTINGS_TIMELINE_HIDE_EVENTS_BEFORE_TS}_$roomId", 0)
+    }
 
     fun areNotificationEnabledForDevice(): Boolean {
         return defaultPrefs.getBoolean(SETTINGS_ENABLE_THIS_DEVICE_PREFERENCE_KEY, true)
