@@ -44,6 +44,8 @@ import im.vector.app.core.ui.views.CurrentCallsView
 import im.vector.app.core.ui.views.CurrentCallsViewPresenter
 import im.vector.app.core.ui.views.KeysBackupBanner
 import im.vector.app.databinding.FragmentNewHomeDetailBinding
+import im.vector.app.features.MainActivity
+import im.vector.app.features.MainActivityArgs
 import im.vector.app.features.call.SharedKnownCallsViewModel
 import im.vector.app.features.call.VectorCallActivity
 import im.vector.app.features.call.dialpad.PstnDialActivity
@@ -231,8 +233,14 @@ class NewHomeDetailFragment :
 
     override fun onResume() {
         super.onResume()
-        callManager.checkForProtocolsSupportIfNeeded()
-        refreshSpaceState()
+
+        if (vectorPreferences.isTimeForDailyCleanup()) {
+            vectorPreferences.markDailyCleanupCompleted()
+            MainActivity.restartApp(requireActivity(), MainActivityArgs(clearCache = true))
+        } else {
+            callManager.checkForProtocolsSupportIfNeeded()
+            refreshSpaceState()
+        }
     }
 
     private fun refreshSpaceState() {

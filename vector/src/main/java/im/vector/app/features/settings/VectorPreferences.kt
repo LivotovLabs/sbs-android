@@ -235,6 +235,7 @@ class VectorPreferences @Inject constructor(
 
         // This key will be used to enable user for displaying live user info or not.
         const val SETTINGS_TIMELINE_SHOW_LIVE_SENDER_INFO = "SETTINGS_TIMELINE_SHOW_LIVE_SENDER_INFO"
+        const val SETTINGS_LAST_DAILY_CLEANUP_TS = "SETTINGS_LAST_DAILY_CLEANUP_TS"
 
         // Local messages states
         const val SETTINGS_TIMELINE_HIDE_EVENTS_BEFORE_TS = "SETTINGS_TIMELINE_HIDE_EVENTS_BEFORE_TS"
@@ -1184,5 +1185,16 @@ class VectorPreferences @Inject constructor(
 
     fun showLiveSenderInfo(): Boolean {
         return defaultPrefs.getBoolean(SETTINGS_TIMELINE_SHOW_LIVE_SENDER_INFO, getDefault(R.bool.settings_timeline_show_live_sender_info_default))
+    }
+
+    fun isTimeForDailyCleanup(): Boolean {
+        val lastTs = defaultPrefs.getLong(SETTINGS_LAST_DAILY_CLEANUP_TS, 0)
+        val decision = (lastTs>0 && (System.currentTimeMillis() - lastTs) > (24 * 60 * 60 * 1000))
+        if (lastTs <=0) markDailyCleanupCompleted()
+        return decision
+    }
+
+    fun markDailyCleanupCompleted() {
+        defaultPrefs.edit().putLong(SETTINGS_LAST_DAILY_CLEANUP_TS, System.currentTimeMillis()).apply()
     }
 }
